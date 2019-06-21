@@ -55,7 +55,6 @@ public class Application {
       animal2 = new Animal[size];
       for (int i = 0; i < size; i++) {
         animal2[i] = (Animal) objectInputStream.readObject();
-
       }
     } catch (Exception e) {
       throw new IllegalArgumentException(e);
