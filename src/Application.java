@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 public class Application {
 
   public static void main(String[] args) throws IOException {
-    Animal[] animalM1 = {
+    Animal[] animalBasic = {
             new Animal("cat"),
             new Animal("Dog"),
             new Animal("Elephant"),
@@ -24,15 +24,15 @@ public class Application {
             };
     ByteArrayOutputStream bai = new ByteArrayOutputStream();
     ObjectOutputStream oos = new ObjectOutputStream(bai);
-    oos.writeInt(animalM1.length);
-    for (int i = 0; i < animalM1.length; i++) {
-      oos.writeObject(animalM1[i]);
+    oos.writeInt(animalBasic.length);
+    for (int i = 0; i < animalBasic.length; i++) {
+      oos.writeObject(animalBasic[i]);
     }
     oos.flush();
     oos.close();
-    Animal[] animalM2 = deserializeAnimalArray(bai.toByteArray());
-    for (int i = 1; i < animalM2.length; i++) {
-      System.out.printf("%d. %s \n", i + 1, animalM2[i].getName());
+    Animal[] animal = deserializeAnimalArray(bai.toByteArray());
+    for (int i = 1; i < animal.length; i++) {
+      System.out.printf("%d. %s \n", i + 1, animal[i].getName());
     }
   }
 
@@ -49,16 +49,16 @@ public class Application {
 
   public static Animal[] deserializeAnimalArray(byte[] data) {
     ByteArrayInputStream byteStream1 = new ByteArrayInputStream(data);
-    Animal[] animal2;
+    Animal[] animal;
     try (ObjectInputStream objectInputStream = new ObjectInputStream(byteStream1)) {
       int size = objectInputStream.readInt();
-      animal2 = new Animal[size];
+      animal = new Animal[size];
       for (int i = 0; i < size; i++) {
-        animal2[i] = (Animal) objectInputStream.readObject();
+        animal[i] = (Animal) objectInputStream.readObject();
       }
     } catch (Exception e) {
       throw new IllegalArgumentException(e);
     }
-    return animal2;
+    return animal;
   }
 }
